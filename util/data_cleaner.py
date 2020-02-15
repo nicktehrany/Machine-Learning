@@ -47,6 +47,8 @@ with open('songs_dataset.csv', 'r') as dataset, open('data/dataset.csv', 'w+') a
     for row in csv.reader(dataset):
         if not header:
             clean_row(row)
+        else:
+            csv_writer.writerow([row[0], row[2], row[5], row[6], row[7]])
         bar.next()
         header = False
     
