@@ -18,7 +18,7 @@ from tqdm import *
 nltk.download('words')
 
 # Change Max_songs to a sutiable number for how many songs of each genre should be in the final set
-Max_songs = 2000; finished = 0
+Max_songs = 1800; finished = 0
 CONST_POP = '[\'Pop\']'; CONST_ROCK = '[\'Rock\']'; CONST_RAP = '[\'Hip-Hop/Rap\']'; CONST_COUNTRY = '[\'Country\']';
 CONST_RB = '[\'R&B/Soul\']'; CONST_METAL = '[\'Metal\']'; CONST_INDIE = '[\'Alternative/Indie\']'; CONST_FOLK = '[\'Folk\']'
 counter = [0,0,0,0,0,0,0,0]
@@ -110,6 +110,8 @@ with open('songs_dataset.csv', 'r') as dataset, open('data/dataset.csv', 'w+') a
         if not header:
             prog = clean_row(row)
             if prog == 0: break
+        else:
+            csv_writer.writerow([row[0], row[2], row[5], row[6], row[7]])
         cleaning_bar.update(1)
         header = False
     
