@@ -31,7 +31,8 @@ with open('songs_dataset.csv', 'r') as dataset, open('data/dataset.csv', 'w+') a
             # Encoding since csv.read returns a string and we need bytes in order to check
             # if it's some character besides ascii by decoding it 
             try:
-                str.encode(split[1]).decode('ascii')
+                if (len(split) >= 1):
+                    str.encode(split[1]).decode('ascii')
             except UnicodeDecodeError:
                 pass
             else:

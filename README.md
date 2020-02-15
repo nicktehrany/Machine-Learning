@@ -1,5 +1,5 @@
 # DATABASE CLEANUP
-## Need nltk installed
+## Required Packages
 Download the songs_dataset.csv from https://www.kaggle.com/detkov/lyrics-dataset/version/5#songs_dataset.csv and store it in your project's home directory then run the
 following commands to install a needed library and create a new clean dataset:
 
