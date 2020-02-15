@@ -2,7 +2,11 @@
 # by removing unneeded columns, and removing songs that are not in English
 #
 # Lyrics will only have one genre to make it simpler
-# 
+#
+# This script will remove unwanted data from the lyrics and select 200 Songs from each genre to be put into the final
+# set. This will result in a perfectly even distribution over our training data.
+#
+#
 # TODO: I guess we could also clean up the other columns in here like the genre being 'rap' instead of '[rap]'?
 #       could be easier later on but nor sure?
 
@@ -49,7 +53,7 @@ def match_genre(row):
     counter[index]+=1
     if counter[index] == Max_songs:
         global finished 
-        finished = 8
+        finished+=1
     update_bar(index)
     return 0
 
