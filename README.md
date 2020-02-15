@@ -9,7 +9,7 @@ following commands to install a needed library and create a new clean dataset:
 
 pip3 install nltk progress pandas
 
-make db_cleanup
+make clean-dataset
 
 '''
 
