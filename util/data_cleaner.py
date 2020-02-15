@@ -22,7 +22,7 @@ with open('songs_dataset.csv', 'r') as dataset, open('data/dataset.csv', 'w+') a
             text = row[6]
 
             # Removes The unused text with [], (), and {} like [Verse 1:] etc..
-            row[6] = re.sub(r'.*\[.*]|\(.*\)|\{.*\}', '', text)
+            row[6] = re.sub(r'\[\[*[a-zA-Z ]*\]\]*|\(.[a-zA-Z ]*\)\)*|\{\{*[a-zA-Z ]*\}\}*', '', text)
             text = row[6]
             split = text.split()
 
@@ -31,20 +31,20 @@ with open('songs_dataset.csv', 'r') as dataset, open('data/dataset.csv', 'w+') a
             # Encoding since csv.read returns a string and we need bytes in order to check
             # if it's some character besides ascii by decoding it 
             try:
-                if (len(split) >= 1):
+                if (len(split) > 1):
                     str.encode(split[1]).decode('ascii')
             except UnicodeDecodeError:
                 pass
             else:
 
                 # If Lyrics are less than 6 words the row is also not written to the file (TODO: Change to a more appropiate number. I chose 6 randomly)
-                if (len(split) >= 6):
+                if (len(split) > 6):
                     try:
                         str.encode(split[6]).decode('ascii')
                     except UnicodeDecodeError:
                         pass
                     else:
-                        if (not text in (None, "")) and (split[1] in words.words() or split[6] in words.words()):
+                        if (split[1] in words.words() or split[6] in words.words()):
                             csv_writer.writerow([row[0], row[2], row[5], row[6], row[7]])
 
         header = False
