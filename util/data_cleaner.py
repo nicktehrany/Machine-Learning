@@ -27,7 +27,7 @@ def signal_handler(signal, sigframe):
     exit(0)
 
 def update_bar(index):
-    if index == 0: pop_bar.update(1) 
+    if index == 0: pop_bar.update(1)
     elif index == 1: rock_bar.update(1)
     elif index == 2: rap_bar.update(1)
     elif index == 3: country_bar.update(1)
@@ -47,12 +47,12 @@ def match_genre(row):
     elif row == CONST_FOLK: index = 7
     else:
         return 1
-    
+
     if counter[index] >= Max_songs:
         return 1
     counter[index]+=1
     if counter[index] == Max_songs:
-        global finished 
+        global finished
         finished+=1
     update_bar(index)
     return 0
@@ -89,7 +89,7 @@ def clean_row(row):
                     if success == 0:
                         csv_writer.writerow([row[0], row[2], row[5], row[6], row[7]])
 
-                        
+
 with open('songs_dataset.csv', 'r') as dataset, open('data/dataset.csv', 'w+') as out:
     csv_writer = csv.writer(out)
     header = True
@@ -114,6 +114,6 @@ with open('songs_dataset.csv', 'r') as dataset, open('data/dataset.csv', 'w+') a
             csv_writer.writerow([row[0], row[2], row[5], row[6], row[7]])
         cleaning_bar.update(1)
         header = False
-    
+
     dataset.close()
     out.close()
