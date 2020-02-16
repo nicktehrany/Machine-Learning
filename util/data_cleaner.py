@@ -1,12 +1,10 @@
 # This script cleans up the dataset we retrieved from https://www.kaggle.com/detkov/lyrics-dataset/version/5#songs_dataset.csv
 # by removing unneeded columns, and removing songs that are not in English. It saves the new dataset in the data directory
-# and deletes the old dataset. It will remove unwanted data from the lyrics and select 1800 Songs from each genre to be put into 
-# the final set. This will result in a perfectly even distribution over all genres.
+# and later we'll delete the old dataset. It will remove unwanted data from the lyrics and select 1800 Songs from each genre to 
+# be put into the final set. This will result in a perfectly even distribution over all genres.
 #
 # Lyrics will only have one genre to make it simpler
 #
-# TODO: I guess we could also clean up the other columns in here like the genre being 'rap' instead of '[rap]'?
-#       could be easier later on but nor sure?
 
 import csv, re, nltk
 import pandas as pd
@@ -15,13 +13,15 @@ import signal
 from tqdm import *
 nltk.download('words')
 
-# Change Max_songs to a sutiable number for how many songs of each genre should be in the final set
-Max_songs = 2; finished = 0
+# Max_songs will be the number of how many songs for each genre will be in the final set
+Max_songs = 1800; finished = 0
 CONST_POP = '[\'Pop\']'; CONST_ROCK = '[\'Rock\']'; CONST_RAP = '[\'Hip-Hop/Rap\']'; CONST_COUNTRY = '[\'Country\']';
 CONST_RB = '[\'R&B/Soul\']'; CONST_METAL = '[\'Metal\']'; CONST_INDIE = '[\'Alternative/Indie\']'; CONST_FOLK = '[\'Folk\']'
 counter = [0,0,0,0,0,0,0,0]
 
 def signal_handler(signal, sigframe):
+    dataset.close()
+    out.close()
     exit(0)
 
 def update_bar(index):
@@ -73,7 +73,10 @@ def clean_row(row):
     except UnicodeDecodeError:
         pass
     else:
-        # If Lyrics are less than 6 words the row is also not written to the file (TODO: Change to a more appropiate number. I chose 6 randomly)
+        # If Lyrics are less than 6 words the row is also not written to the file 
+        # (NOTE: 6 was chosen randomly, has no meaning, could therefore write songs
+        # with lyrics in other languages that include an english words at that index 
+        # to the final set)
         if len(split) > 6:
             try:
                 str.encode(split[6]).decode('ascii')

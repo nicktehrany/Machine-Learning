@@ -19,6 +19,8 @@ This will take a few hours lol
 The final train data set will be created in the data folder, in which there's also a jupyter notebook in which data analysis should be done (Graphs
 of the distribution, etc..). Jupyter can be used by running the following command in either the project's home folder or the data folder.
 
+**Need to have jupyter installed**
+
 '''
 
 jupyter notebook
