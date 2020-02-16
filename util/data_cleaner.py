@@ -3,7 +3,7 @@
 #
 # Lyrics will only have one genre to make it simpler
 #
-# This script will remove unwanted data from the lyrics and select 200 Songs from each genre to be put into the final
+# This script will remove unwanted data from the lyrics and select 1800 Songs from each genre to be put into the final
 # set. This will result in a perfectly even distribution over our training data.
 #
 #
@@ -18,7 +18,7 @@ from tqdm import *
 nltk.download('words')
 
 # Change Max_songs to a sutiable number for how many songs of each genre should be in the final set
-Max_songs = 1800; finished = 0
+Max_songs = 2; finished = 0
 CONST_POP = '[\'Pop\']'; CONST_ROCK = '[\'Rock\']'; CONST_RAP = '[\'Hip-Hop/Rap\']'; CONST_COUNTRY = '[\'Country\']';
 CONST_RB = '[\'R&B/Soul\']'; CONST_METAL = '[\'Metal\']'; CONST_INDIE = '[\'Alternative/Indie\']'; CONST_FOLK = '[\'Folk\']'
 counter = [0,0,0,0,0,0,0,0]
@@ -84,10 +84,10 @@ def clean_row(row):
                 if (split[1] in words.words() or split[6] in words.words()):
                     row[5] = re.sub(r',.*\'', '', row[5])
                     success = match_genre(row[5])
-                    if finished == 8:
-                        return 0
                     if success == 0:
                         csv_writer.writerow([row[0], row[2], row[5], row[6], row[7]])
+                    if finished == 8:
+                        return 0
 
 
 with open('songs_dataset.csv', 'r') as dataset, open('data/dataset.csv', 'w+') as out:
