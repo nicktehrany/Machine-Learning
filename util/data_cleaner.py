@@ -1,11 +1,9 @@
 # This script cleans up the dataset we retrieved from https://www.kaggle.com/detkov/lyrics-dataset/version/5#songs_dataset.csv
-# by removing unneeded columns, and removing songs that are not in English
+# by removing unneeded columns, and removing songs that are not in English. It saves the new dataset in the data directory
+# and deletes the old dataset. It will remove unwanted data from the lyrics and select 1800 Songs from each genre to be put into 
+# the final set. This will result in a perfectly even distribution over all genres.
 #
 # Lyrics will only have one genre to make it simpler
-#
-# This script will remove unwanted data from the lyrics and select 1800 Songs from each genre to be put into the final
-# set. This will result in a perfectly even distribution over our training data.
-#
 #
 # TODO: I guess we could also clean up the other columns in here like the genre being 'rap' instead of '[rap]'?
 #       could be easier later on but nor sure?
@@ -66,6 +64,7 @@ def clean_row(row):
 
     # Only writes Songs with English Lyrics to new dataset (Doesn't recognize some words
     # in Rap songs therefore testing multiple random words to hopefully recognize one)
+    #
     # Encoding since csv.read returns a string and we need bytes in order to check
     # if it's some character besides ascii by decoding it 
     try:
