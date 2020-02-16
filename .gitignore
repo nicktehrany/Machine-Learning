@@ -1,0 +1,8 @@
+
+.vscode/
+
+*.csv
+
+*.csv#
+
+data/.ipynb_checkpoints/
