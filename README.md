@@ -5,13 +5,10 @@ following commands to install needed libraries and create a new clean dataset:
 
 **This works for python 3.\*, since 2.\* is no longer supported but should also work on there, just change the Makefile to use 'python' instead of 'python3', and use 'pip' instead of 'pip3'**
 
-'''
-
+```console
 pip3 install nltk tqdm pandas regex
-
 make clean-dataset
-
-'''
+```
 
 This will take a few hours lol
 
@@ -21,8 +18,6 @@ of the distribution, etc..). Jupyter can be used by running the following comman
 
 **Need to have jupyter installed**
 
-'''
-
+```console
 jupyter notebook
-
-'''
+```
