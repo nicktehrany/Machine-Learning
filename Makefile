@@ -12,9 +12,7 @@ all: clean-dataset
 clean-dataset:
 	mkdir -p data
 	$(PY) $(ds_clean) 
-	$(RM) $(DS)
-	echo "Finished"
-
+	
 clean:
 	$(RM) $(DS)
 

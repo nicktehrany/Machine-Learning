@@ -9,6 +9,8 @@
 import csv, re, nltk
 import pandas as pd
 from nltk.corpus import words
+from nltk.stem import PorterStemmer 
+ps = PorterStemmer() 
 import signal
 from tqdm import *
 nltk.download('words')
@@ -58,7 +60,7 @@ def match_genre(row):
 def clean_row(row):
 
     # Removes The unused text inside [], (), and {} like [Verse 1:] etc..
-    row[6] = re.sub(r'\[\[*[^]]*\]\]*|\(.[^)]*\)\)*|\{\{*[^}]*\}\}*', '', row[6])
+    row[6] = re.sub(r'\[\[*[^]]*\]\]*|\(.[^)]*\)\)*|\{\{*[^}]*\}\}*|^\n+', '', row[6])
     text = row[6]
     split = text.split()
 
@@ -76,18 +78,18 @@ def clean_row(row):
         # If Lyrics are less than 6 words the row is also not written to the file 
         # (NOTE: 6 was chosen randomly, has no meaning, could therefore write songs
         # with lyrics in other languages that include an english words at that index 
-        # to the final set)
+        # to the final set) Also removes consecutive empty lines
         if len(split) > 6:
             try:
                 str.encode(split[6]).decode('ascii')
             except UnicodeDecodeError:
                 pass
             else:
-                if (split[1] in words.words() or split[6] in words.words()):
+                if (ps.stem(split[1]) in words.words() or ps.stem(split[6]) in words.words()):
                     row[5] = re.sub(r',.*\'', '', row[5])
                     success = match_genre(row[5])
                     if success == 0:
-                        csv_writer.writerow([row[0], row[2], row[5], row[6], row[7]])
+                        csv_writer.writerow([row[0], row[2], row[3], row[5], row[6], row[7]])
                     if finished == 8:
                         return 0
 
@@ -113,7 +115,7 @@ with open('songs_dataset.csv', 'r') as dataset, open('data/dataset.csv', 'w+') a
             prog = clean_row(row)
             if prog == 0: break
         else:
-            csv_writer.writerow([row[0], row[2], row[5], row[6], row[7]])
+            csv_writer.writerow([row[0], row[2], row[3], row[5], row[6], row[7]])
         cleaning_bar.update(1)
         header = False
 
