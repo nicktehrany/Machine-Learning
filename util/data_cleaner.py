@@ -9,8 +9,6 @@
 import csv, re, nltk
 import pandas as pd
 from nltk.corpus import words
-from nltk.stem import PorterStemmer 
-ps = PorterStemmer() 
 import signal
 from tqdm import *
 nltk.download('words')
@@ -85,7 +83,7 @@ def clean_row(row):
             except UnicodeDecodeError:
                 pass
             else:
-                if (ps.stem(split[1]) in words.words() or ps.stem(split[6]) in words.words()):
+                if (split[1] in words.words() or split[6] in words.words()):
                     row[5] = re.sub(r',.*\'', '', row[5])
                     success = match_genre(row[5])
                     if success == 0:
