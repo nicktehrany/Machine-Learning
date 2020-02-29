@@ -92,7 +92,7 @@ def clean_row(row):
                         return 0
 
 
-with open('songs_dataset.csv', 'r') as dataset, open('data/dataset.csv', 'w+') as out:
+with open('songs_dataset.csv', 'r') as dataset, open('src/dataset.csv', 'w+') as out:
     csv_writer = csv.writer(out)
     header = True
     signal.signal(signal.SIGINT, signal_handler)
