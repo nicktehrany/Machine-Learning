@@ -10,14 +10,7 @@ pip3 install nltk tqdm pandas regex
 make clean-dataset
 ```
 
-This will take a few hours lol
+This will take a few hours, therefore ran the script once and included the dataset in the src folder.
 
-# DATA ANALYSIS
-The final train data set will be created in the data folder, in which there's also a jupyter notebook in which data analysis should be done (Graphs
-of the distribution, etc..). Jupyter can be used by running the following command in either the project's home folder or the data folder.
-
-**Need to have jupyter installed**
-
-```console
-jupyter notebook
-```
+# Models
+All models are in the src folder. (TODO: Describe different Models)
