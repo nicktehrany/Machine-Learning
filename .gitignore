@@ -10,3 +10,5 @@ data/.ipynb_checkpoints/
 .ipynb_checkpoints/
 
 Cleaner.ipynb
+
+util/__pycache__/
