@@ -28,7 +28,7 @@ def get_index(word, word_list):
     return -1
 
 
-# takes a list and creates a one-hot vector for the genre
+# takes a list and creates a one-hot vector for the genre and retruns it as a list
 def one_hot_genres(genres):
     one_hot = []
 
@@ -48,8 +48,8 @@ def one_hot_genres(genres):
     return one_hot
 
 # takes a list and a boolean. cleans the text in the list and if boolean is true,
-# creates a list of all words that occured in the text. returns cleaned text and
-# and list of words or empty list
+# creates a list of all words that occured in the text. returns cleaned text as a 
+# list and and list of words or empty list
 def clean_text(text_list, use_list):
     corpus = []
     sw = stopwords.words("english")
@@ -70,7 +70,7 @@ def clean_text(text_list, use_list):
 
     return (text_list, word_list)
 
-# reverses the one-hot genres vector back to genres and returns it
+# reverses the one-hot genres vector back to genres and returns it as a list
 def one_hot_reverse(genre_list):
     genres = []
 
