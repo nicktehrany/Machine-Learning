@@ -12,7 +12,7 @@ import math
 
 
 def sigmoid_logit(x):
-    if x > 0.3:
+    if x >= 0.3:
         return 1
     elif x == 0:
         return 0
@@ -22,19 +22,25 @@ def sigmoid_logit(x):
 
 # creates a one-hot zero initialized vector of size size
 # for the given text from the word_list 
-def one_hot(text, wlist, size):
+def one_hot(text, wlist, size, type):
     word_vector = np.zeros(shape=(1, size))
     text = text.split() # splits words
     for w in text:
         ind = get_index(w, wlist)
         if ind >= 0:
-            word_vector[0, ind] += 1/len(text)
+            if type == 0:
+                word_vector[0, ind] = 1
+            if type == 1:
+                word_vector[0, ind] += 1
     
     temp = word_vector[0]
-    index = 0
-    for x in temp:
-        temp[index] = sigmoid_logit(x)
-        index +=1
+
+    # Used for sigmoid-logit term frequency
+    # index = 0
+    # for x in temp:
+    #     temp[index] = sigmoid_logit(x)
+    #     index +=1
+
     return temp
 
 
