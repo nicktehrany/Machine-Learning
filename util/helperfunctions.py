@@ -8,6 +8,17 @@ nltk.download('wordnet')
 nltk.download('stopwords')
 from nltk.corpus import stopwords # For removing stopwords
 import numpy as np
+import math
+
+
+def sigmoid_logit(x):
+    if x > 0.3:
+        return 1
+    elif x == 0:
+        return 0
+
+    numerator = math.e**(math.log(x/(0.3-x)))
+    return numerator/(numerator + 1)
 
 # creates a one-hot zero initialized vector of size size
 # for the given text from the word_list 
@@ -17,8 +28,14 @@ def one_hot(text, wlist, size):
     for w in text:
         ind = get_index(w, wlist)
         if ind >= 0:
-            word_vector[0, ind] = 1
-    return word_vector[0]
+            word_vector[0, ind] += 1/len(text)
+    
+    temp = word_vector[0]
+    index = 0
+    for x in temp:
+        temp[index] = sigmoid_logit(x)
+        index +=1
+    return temp
 
 
 def get_index(word, word_list):
