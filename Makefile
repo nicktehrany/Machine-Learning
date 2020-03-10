@@ -1,7 +1,7 @@
 SHELL = /bin/sh
 
 DS = songs_dataset.csv
-ds_clean = util/data_cleaner.py
+ds_clean = util/datacleaner.py
 PY = python3
 
 .PHONY: all clean
