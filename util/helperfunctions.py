@@ -93,6 +93,53 @@ def clean_text(text_list, use_list):
 
     return (text_list, word_list)
 
+def new_clean_text(text_list, use_list):
+    corpus = []
+    sw = stopwords.words("english")
+    word_list = []
+    for text in text_list:
+        text = text.replace('\'', '')
+        text = re.sub('[^a-zA-Z]', ' ', text) # removes special characters
+        text = re.sub(',', '', text)
+        text = text.lower() # lowercases everything
+        text = text.split() # splits words
+        formatted_text = ""
+        for word in text:
+            if use_list:
+                if word not in word_list:
+                    word_list.append(word)
+            formatted_text+=word+" "
+        corpus.append(formatted_text)
+    text_list = corpus
+
+    return (text_list, word_list)
+
+def cnn_clean_text(text_list, use_list):
+    corpus = []
+    sw = stopwords.words("english")
+    word_list = []
+    max_len = 0
+    for text in text_list:
+        counter = 0
+        text = re.sub('[^a-zA-Z]', ' ', text) # removes special characters
+        text = re.sub(',', '', text)
+        text = text.lower() # lowercases everything
+        text = text.split() # splits words
+        text = [wordnet_lemmatizer.lemmatize(word, pos="v") for word in text if not word in set(sw)]
+        formatted_text = ""
+        for word in text:
+            counter+=1
+            if use_list:
+                if word not in word_list:
+                    word_list.append(word)
+            formatted_text+=word+" "
+        corpus.append(formatted_text)
+        if counter > max_len:
+            max_len = counter
+    text_list = corpus
+
+    return (text_list, max_len, word_list)
+
 # reverses the one-hot genres vector back to genres and returns it as a list
 def one_hot_reverse(genre_list):
     genres = []
