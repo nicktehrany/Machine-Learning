@@ -14,9 +14,9 @@ from tqdm import *
 nltk.download('words')
 
 # Max_songs will be the number of how many songs for each genre will be in the final set
-Max_songs = 1800; finished = 0
-CONST_POP = '[\'Pop\']'; CONST_ROCK = '[\'Rock\']'; CONST_RAP = '[\'Hip-Hop/Rap\']'; CONST_COUNTRY = '[\'Country\']';
-CONST_RB = '[\'R&B/Soul\']'; CONST_METAL = '[\'Metal\']'; CONST_INDIE = '[\'Alternative/Indie\']'; CONST_FOLK = '[\'Folk\']'
+Max_songs = 3000; finished = 0
+CONST_POP = 'Pop'; CONST_ROCK = 'Rock'; CONST_RAP = 'Hip-Hop'; CONST_COUNTRY = 'Country';
+CONST_RB = 'R&B'; CONST_METAL = 'Metal'; CONST_INDIE = 'Indie'; CONST_FOLK = 'Folk'
 counter = [0,0,0,0,0,0,0,0]
 
 def signal_handler(signal, sigframe):
@@ -58,8 +58,8 @@ def match_genre(row):
 def clean_row(row):
 
     # Removes The unused text inside [], (), and {} like [Verse 1:] etc..
-    row[6] = re.sub(r'\[\[*[^]]*\]\]*|\(.[^)]*\)\)*|\{\{*[^}]*\}\}*|^\n+', '', row[6])
-    text = row[6]
+    row[5] = re.sub(r'\[\[*[^]]*\]\]*|\(.[^)]*\)\)*|\{\{*[^}]*\}\}*|^\n+', '', row[5])
+    text = row[5]
     split = text.split()
 
     # Only writes Songs with English Lyrics to new dataset (Doesn't recognize some words
@@ -79,26 +79,26 @@ def clean_row(row):
         # to the final set) Also removes consecutive empty lines
         if len(split) > 6:
             try:
-                str.encode(split[6]).decode('ascii')
+                str.encode(split[5]).decode('ascii')
             except UnicodeDecodeError:
                 pass
             else:
                 if (split[1] in words.words() or split[6] in words.words()):
-                    row[5] = re.sub(r',.*\'', '', row[5])
-                    success = match_genre(row[5])
+                    row[4] = re.sub(r',.*\'', '', row[4])
+                    success = match_genre(row[4])
                     if success == 0:
-                        csv_writer.writerow([row[0], row[2], row[3], row[5], row[6], row[7]])
+                        csv_writer.writerow([row[1], row[4], row[5]])
                     if finished == 8:
                         return 0
 
 
-with open('songs_dataset.csv', 'r') as dataset, open('src/dataset.csv', 'w+') as out:
+with open('src/lyrics.csv', 'r') as dataset, open('src/dataset.csv', 'w+') as out:
     csv_writer = csv.writer(out)
     header = True
     signal.signal(signal.SIGINT, signal_handler)
 
     # Pandas is only used for the progress bar to get size of dataset
-    pd_reader = pd.read_csv('songs_dataset.csv')
+    pd_reader = pd.read_csv('lyrics.csv')
     cleaning_bar = tqdm(desc = "Searching", total = len(pd_reader) + 1)
     pop_bar = tqdm(desc = "Pop", total = Max_songs)
     rock_bar = tqdm(desc = "Rock", total = Max_songs)
@@ -113,7 +113,7 @@ with open('songs_dataset.csv', 'r') as dataset, open('src/dataset.csv', 'w+') as
             prog = clean_row(row)
             if prog == 0: break
         else:
-            csv_writer.writerow([row[0], row[2], row[3], row[5], row[6], row[7]])
+            csv_writer.writerow([row[1], row[4], row[5]])
         cleaning_bar.update(1)
         header = False
 
