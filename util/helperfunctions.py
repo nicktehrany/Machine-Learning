@@ -1,5 +1,4 @@
 from tensorflow.keras.utils import to_categorical
-from tensorflow.keras.utils import to_categorical
 import re # for removing special characters
 from nltk.stem import WordNetLemmatizer
 wordnet_lemmatizer = WordNetLemmatizer()
@@ -52,19 +51,20 @@ def get_index(word, word_list):
 
 
 # takes a list and creates a one-hot vector for the genre and retruns it as a list
+# NOTE: CHANGED GENRES NAMES FOR NEW DATASET
 def one_hot_genres(genres):
     one_hot = []
 
     for value in genres:
         index = 0
-        if value == '[\'Pop\']': index = 0
-        elif value == '[\'Rock\']': index = 1
-        elif value == '[\'Hip-Hop/Rap\']': index = 2
-        elif value == '[\'Country\']': index = 3
-        elif value == '[\'R&B/Soul\']': index = 4
-        elif value == '[\'Metal\']': index = 5
-        elif value == '[\'Alternative/Indie\']': index = 6
-        elif value == '[\'Folk\']': index = 7
+        if value == 'Pop': index = 0
+        elif value == 'Rock': index = 1
+        elif value == 'Hip-Hop': index = 2
+        elif value == 'Country': index = 3
+        elif value == 'R&B': index = 4
+        elif value == 'Metal': index = 5
+        elif value == 'Indie': index = 6
+        elif value == 'Folk': index = 7
         one_hot.append(index)
 
     one_hot = to_categorical(one_hot, 8)
