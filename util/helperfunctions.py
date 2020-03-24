@@ -92,27 +92,9 @@ def clean_text(text_list, use_list):
 
     return (text_list, word_list)
 
-def new_clean_text(text_list, use_list):
-    corpus = []
-    sw = stopwords.words("english")
-    word_list = []
-    for text in text_list:
-        text = text.replace('\'', '')
-        text = re.sub('[^a-zA-Z]', ' ', text) # removes special characters
-        text = re.sub(',', '', text)
-        text = text.lower() # lowercases everything
-        text = text.split() # splits words
-        formatted_text = ""
-        for word in text:
-            if use_list:
-                if word not in word_list:
-                    word_list.append(word)
-            formatted_text+=word+" "
-        corpus.append(formatted_text)
-    text_list = corpus
-
-    return (text_list, word_list)
-
+# takes a list and a boolean. cleans the text in the list and if boolean is true,
+# creates a list of all words that occured in the text. returns cleaned text as a 
+# list, list of words or empty list, and the lentgh of words for the longest text
 def cnn_clean_text(text_list, use_list):
     corpus = []
     sw = stopwords.words("english")
