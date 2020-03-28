@@ -1,13 +1,13 @@
+import math
+import numpy as np
+from nltk.corpus import stopwords  # For removing stopwords
+import nltk
 from tensorflow.keras.utils import to_categorical
-import re # for removing special characters
+import re  # for removing special characters
 from nltk.stem import WordNetLemmatizer
 wordnet_lemmatizer = WordNetLemmatizer()
-import nltk
 nltk.download('wordnet')
 nltk.download('stopwords')
-from nltk.corpus import stopwords # For removing stopwords
-import numpy as np
-import math
 
 
 def sigmoid_logit(x):
@@ -20,10 +20,12 @@ def sigmoid_logit(x):
     return numerator/(numerator + 1)
 
 # creates a one-hot zero initialized vector of size size
-# for the given text from the word_list 
+# for the given text from the word_list
+
+
 def one_hot(text, wlist, size, type):
     word_vector = np.zeros(shape=(1, size))
-    text = text.split() # splits words
+    text = text.split()  # splits words
     for w in text:
         ind = get_index(w, wlist)
         if ind >= 0:
@@ -31,7 +33,7 @@ def one_hot(text, wlist, size, type):
                 word_vector[0, ind] = 1
             if type == 1:
                 word_vector[0, ind] += 1
-    
+
     temp = word_vector[0]
 
     # Used for sigmoid-logit term frequency
@@ -51,68 +53,62 @@ def get_index(word, word_list):
 
 
 # takes a list and creates a one-hot vector for the genre and retruns it as a list
-# NOTE: CHANGED GENRES NAMES FOR NEW DATASET
 def one_hot_genres(genres):
     one_hot = []
 
     for value in genres:
         index = 0
-        if value == 'Pop': index = 0
-        elif value == 'Rock': index = 1
-        elif value == 'Hip-Hop': index = 2
-        elif value == 'Country': index = 3
-        elif value == 'R&B': index = 4
-        elif value == 'Metal': index = 5
-        elif value == 'Indie': index = 6
-        elif value == 'Folk': index = 7
+        if value == '[\'Pop\']':
+            index = 0
+        elif value == '[\'Rock\']':
+            index = 1
+        elif value == '[\'Hip-Hop/Rap\']':
+            index = 2
+        elif value == '[\'Country\']':
+            index = 3
+        elif value == '[\'R&B/Soul\']':
+            index = 4
+        elif value == '[\'Metal\']':
+            index = 5
+        elif value == '[\'Alternative/Indie\']':
+            index = 6
+        elif value == '[\'Folk\']':
+            index = 7
         one_hot.append(index)
 
     one_hot = to_categorical(one_hot, 8)
     return one_hot
 
 # takes a list and a boolean. cleans the text in the list and if boolean is true,
-# creates a list of all words that occured in the text. returns cleaned text as a 
+# creates a list of all words that occured in the text. returns cleaned text as a
 # list and and list of words or empty list
+
+
 def clean_text(text_list, use_list):
     corpus = []
     sw = stopwords.words("english")
     word_list = []
     for text in text_list:
-        text = re.sub('[^a-zA-Z]', ' ', text) # removes special characters
-        text = text.lower() # lowercases everything
-        text = text.split() # splits words
-        text = [wordnet_lemmatizer.lemmatize(word, pos="v") for word in text if not word in set(sw)]
+        text = re.sub('[^a-zA-Z]', ' ', text)  # removes special characters
+        text = text.lower()  # lowercases everything
+        text = text.split()  # splits words
+        text = [wordnet_lemmatizer.lemmatize(
+            word, pos="v") for word in text if not word in set(sw)]
         formatted_text = ""
         for word in text:
             if use_list:
                 if word not in word_list:
                     word_list.append(word)
-            formatted_text+=word+" "
+            formatted_text += word+" "
         corpus.append(formatted_text)
     text_list = corpus
 
     return (text_list, word_list)
 
-def new_clean_text(text_list, use_list):
-    corpus = []
-    sw = stopwords.words("english")
-    word_list = []
-    for text in text_list:
-        text = text.replace('\'', '')
-        text = re.sub('[^a-zA-Z]', ' ', text) # removes special characters
-        text = re.sub(',', '', text)
-        text = text.lower() # lowercases everything
-        text = text.split() # splits words
-        formatted_text = ""
-        for word in text:
-            if use_list:
-                if word not in word_list:
-                    word_list.append(word)
-            formatted_text+=word+" "
-        corpus.append(formatted_text)
-    text_list = corpus
+# takes a list and a boolean. cleans the text in the list and if boolean is true,
+# creates a list of all words that occured in the text. returns cleaned text as a
+# list, list of words or empty list, and the lentgh of words for the longest text
 
-    return (text_list, word_list)
 
 def cnn_clean_text(text_list, use_list):
     corpus = []
@@ -121,18 +117,19 @@ def cnn_clean_text(text_list, use_list):
     max_len = 0
     for text in text_list:
         counter = 0
-        text = re.sub('[^a-zA-Z]', ' ', text) # removes special characters
+        text = re.sub('[^a-zA-Z]', ' ', text)  # removes special characters
         text = re.sub(',', '', text)
-        text = text.lower() # lowercases everything
-        text = text.split() # splits words
-        text = [wordnet_lemmatizer.lemmatize(word, pos="v") for word in text if not word in set(sw)]
+        text = text.lower()  # lowercases everything
+        text = text.split()  # splits words
+        text = [wordnet_lemmatizer.lemmatize(
+            word, pos="v") for word in text if not word in set(sw)]
         formatted_text = ""
         for word in text:
-            counter+=1
+            counter += 1
             if use_list:
                 if word not in word_list:
                     word_list.append(word)
-            formatted_text+=word+" "
+            formatted_text += word+" "
         corpus.append(formatted_text)
         if counter > max_len:
             max_len = counter
@@ -141,6 +138,8 @@ def cnn_clean_text(text_list, use_list):
     return (text_list, max_len, word_list)
 
 # reverses the one-hot genres vector back to genres and returns it as a list
+
+
 def one_hot_reverse(genre_list):
     genres = []
 
