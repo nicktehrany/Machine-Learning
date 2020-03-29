@@ -1,8 +1,7 @@
 SHELL = /bin/sh
 
 DS = songs_dataset.csv
-CleanDB = data/dataset.csv
-ds_clean = util/data_cleaner.py
+ds_clean = util/datacleaner.py
 PY = python3
 
 .PHONY: all clean
@@ -10,11 +9,9 @@ PY = python3
 all: clean-dataset
 
 clean-dataset:
-	mkdir -p data
+	mkdir -p src
 	$(PY) $(ds_clean) 
-	$(RM) $(DS)
-	echo "Finished"
-
+	
 clean:
 	$(RM) $(DS)
 
